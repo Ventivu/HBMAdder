@@ -1,0 +1,17 @@
+[
+{
+  "modid": "HA",
+  "name": "HBMadden",
+  "description": "compact for HBM",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "logoFile": "",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Ventivu"],
+  "credits": "",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

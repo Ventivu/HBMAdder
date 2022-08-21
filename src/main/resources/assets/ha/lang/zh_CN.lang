@@ -1,0 +1,16 @@
+tile.transfer.name=流体转换器
+level.0=基础
+level.1=普通
+level.2=精致
+level.3=高级
+level.4=进阶
+level.5=超级
+level.6=终极
+level.7=创造
+
+#Config
+desc.RefreshFluid=刷新流体配置开关
+desc.AlwaysRefreshFluid=保持流体刷新常开
+desc.RefreshRecipe=刷新转换配置开关
+desc.AlwaysRefreshRecipe=保持转换刷新常开
+desc.AllCustomMode=完全自定义模式（不会自动删除失效项目）
