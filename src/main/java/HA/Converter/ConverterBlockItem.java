@@ -1,12 +1,12 @@
-package HA.Transfer;
+package HA.Converter;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
-public class TransforBlockItem extends ItemBlock {
-    public TransforBlockItem(Block block) {
+public class ConverterBlockItem extends ItemBlock {
+    public ConverterBlockItem(Block block) {
         super(block);
         setHasSubtypes(true);
     }

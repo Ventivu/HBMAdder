@@ -1,0 +1,36 @@
+tile.converter.name=Fluid converter
+level.0=Basic
+level.1=Normal
+level.2=Delicate
+level.3=Senior
+level.4=Advanced
+level.5=Super
+level.6=Ultimate
+level.7=Creative
+
+#Config
+FluidInfo.1=If you want customize Forge Liquid to HBM Liquid Recipe
+FluidInfo.2=After that,edit the HARecipes.json with this format:
+FluidInfo.3={input:"FluidName",output:"FluidName"}
+FluidInfo.4=input - ForgeFluid output - HBM Fluid
+
+CommonInfo.1=If you want customize HBM Additional Fluid(color,potion,other),We suggest you to set AllCustomMode to true(not required)
+CommonInfo.2=edit the HAFluid.json with this format:
+CommonInfo.3={name:FluidName,poison:0,flammability:0,reactivity:0,RGB:[255,255,255]}
+CommonInfo.4=poison - toxicity flammability - Flammability reactivity - Radiation
+
+desc.RefreshFluid.1=Reset all Fluid Config(Warn:if true,all of the change will be removed)
+
+desc.AlwaysRefreshFluid=Keep Reset Fluid every time when Running(auto disabled when RefreshFluid is false)
+desc.RefreshRecipe=Reset all Recipe Config（Warn:if true,all of the change will be removed）
+desc.AlwaysRefreshRecipe=Keep Reset Recipe every time when Running(auto disabled when RefreshRecipe is false)
+
+desc.AllCustomMode.1=Full custom mode
+desc.AllCustomMode.2=enabled for customizing HBM fluids with out Forge Fluids
+desc.AllCustomMode.3=(this behavior will cause the module to lose some crash protection capability. It cannot automatically delete the wrong code. You need to modify it manually. After the initial startup, a protective configuration file will be generated to prevent crash. ###This prevent will remove next version.)
+
+desc.warnN=Initialize your %s (this will cause all your customized content to be cleared)
+desc.warnA=Effective after Enabled %s (your %s will be initialized every time you restart the game)
+#Chat
+Chat.configwarn.1=[HBM addons]%s%s,%sIf you are an integration package developer, please pay attention to your next startup with Config file
+Chat.configwarn.2=%s may mistakenly delete the customized content in your HAFluids and HARecipes. Please back it up in time!

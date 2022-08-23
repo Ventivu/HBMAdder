@@ -1,4 +1,4 @@
-package HA.Transfer;
+package HA.Converter;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileTransfer extends TileEntity implements IFluidHandler, IFluidStandardTransceiver, IFluidAcceptor, IFluidSource {
+public class TileConverter extends TileEntity implements IFluidHandler, IFluidStandardTransceiver, IFluidAcceptor, IFluidSource {
     static final int[] speed = new int[]{100, 500, 1000, 3000, 5000, 8000, 10000, -1};
     static final int[] capacity = new int[]{1000, 2000, 4000, 6000, 10000, 20000, 50000, Integer.MAX_VALUE};
     FluidTank input;
@@ -22,7 +22,7 @@ public class TileTransfer extends TileEntity implements IFluidHandler, IFluidSta
     int age = 0;
     List<IFluidAcceptor> list = new ArrayList<>();
 
-    public TileTransfer(int level) {
+    public TileConverter(int level) {
         if (level > 7) level = 7;
         input = new FluidTank(capacity[level]);
         output = new com.hbm.inventory.fluid.tank.FluidTank(Fluids.NONE, capacity[level], 0);
@@ -30,10 +30,7 @@ public class TileTransfer extends TileEntity implements IFluidHandler, IFluidSta
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        //if (input.getFluid() == null || input.getFluid().isFluidEqual(resource)) {
         return input.fill(resource, doFill);
-        // }
-        //return 0;
     }
 
     @Override
@@ -99,16 +96,13 @@ public class TileTransfer extends TileEntity implements IFluidHandler, IFluidSta
                         this.output.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
                     }else {
                         if (output.getTankType() == Fluids.NONE) output.setTankType(outputFluid);
-                        output.setFill(input.getFluidAmount());
+                        output.setFill(input.drain(input.getFluidAmount(),true).amount);
                     }
                 }
             }
         }
         sendFluidToAll(output.getTankType(), this);
         fillFluidInit(output.getTankType());
-        if(a==7) {
-            input.drain(input.getFluidAmount()-output.getFill(),true);
-        }
         if (output.getFill() == 0 && output.getTankType() != Fluids.NONE) output.setTankType(Fluids.NONE);
     }
 

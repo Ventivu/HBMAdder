@@ -5,12 +5,10 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Config {
-    static Configuration conf;
-    Map<Property,Boolean> map=new HashMap<>();
+public class Config extends Configuration{
+    static Config instance;
+    static final String Fluid="HAFluid.json",Recipe="HARecipes.json";
     public static boolean needRefreshFluid=false;
     public static boolean alwaysRefreshFluid=false;
     public static boolean needRefreshRecipe=false;
@@ -22,21 +20,31 @@ public class Config {
     public static Property nRecipe;
     public static Property aRecipe;
     public static Property custom;
+    public static Property first;
 
     public Config(File filepath){
-        conf=new Configuration(filepath);
-        conf.load();
-        nFluid=loadProp(conf,"Fluid","RefreshFluid",false, StatCollector.translateToLocal("desc.RefreshFluid"));
+        super(filepath);
+        instance=this;
+        load();
+        String fluidString =buildStrings("FluidInfo.1","FluidInfo.2","FluidInfo.3","FluidInfo.4");
+        String commonString =buildStrings("CommonInfo.1","CommonInfo.2","CommonInfo.3","CommonInfo.4");
+        addCustomCategoryComment("Fluid", fluidString);
+        addCustomCategoryComment("Common",commonString);
+        addCustomCategoryComment("Don't touch it!","请不要随意变动该范围内的属性，这是用作判定的记号");
 
-        aFluid=loadProp(conf,"Fluid","AlwaysRefreshFluid",false, StatCollector.translateToLocal("desc.AlwaysRefreshFluid"));
+        custom=loadProp(this,"Common","AllCustomMode",true, StatCollector.translateToLocal("desc.AllCustomMode.1")+"\n"+StatCollector.translateToLocal("desc.AllCustomMode.2")+"\n"+StatCollector.translateToLocal("desc.AllCustomMode.3"));
 
-        nRecipe=loadProp(conf,"Fluid","RefreshRecipe",false, StatCollector.translateToLocal("desc.RefreshRecipe"));
+        nFluid=loadProp(this,"Fluid","RefreshFluid",false, StatCollector.translateToLocal("desc.RefreshFluid")+"\n"+StatCollector.translateToLocalFormatted("desc.warnN",Fluid));
 
-        aRecipe=loadProp(conf,"Fluid","AlwaysRefreshRecipe",false, StatCollector.translateToLocal("desc.AlwaysRefreshRecipe"));
+        aFluid=loadProp(this,"Fluid","AlwaysRefreshFluid",false, StatCollector.translateToLocal("desc.AlwaysRefreshFluid")+"\n"+StatCollector.translateToLocalFormatted("desc.warnA","RefreshFluid",Fluid));
 
-        custom=loadProp(conf,"Common","AllCustomMode",false, StatCollector.translateToLocal("desc.AllCustomMode"));
+        nRecipe=loadProp(this,"Fluid","RefreshRecipe",false, StatCollector.translateToLocal("desc.RefreshRecipe")+"\n"+StatCollector.translateToLocalFormatted("desc.warnN",Recipe));
+
+        aRecipe=loadProp(this,"Fluid","AlwaysRefreshRecipe",false, StatCollector.translateToLocal("desc.AlwaysRefreshRecipe")+"\n"+StatCollector.translateToLocalFormatted("desc.warnA","RefreshRecipe",Recipe));
+
+        first=loadProp(this,"Don't touch it!","firstSetup",true);
         auto();
-        if(conf.hasChanged())conf.save();
+        if(this.hasChanged())this.save();
     }
 
     static void auto(){
@@ -53,9 +61,25 @@ public class Config {
         return prop;
     }
 
-    public static void Set(Property property,Boolean bl){
+    static Property loadProp(Configuration conf,String category, String key, boolean default_) {
+        Property prop = conf.get(category, key, default_);
+        return prop;
+    }
+
+    public static void set(Property property, Boolean bl){
         property.set(bl);
         auto();
-        conf.save();
+        instance.save();
+    }
+
+    String buildStrings(String... strs){
+        StringBuilder builder=new StringBuilder();
+        for(String str:strs){
+            String ss=StatCollector.translateToLocal(str);
+            builder.append(ss);
+            builder.append("\n");
+        }
+        builder.delete(builder.length()-2,builder.length());
+        return builder.toString();
     }
 }

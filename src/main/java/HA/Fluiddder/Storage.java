@@ -1,16 +1,10 @@
 package HA.Fluiddder;
 
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import cpw.mods.fml.common.registry.LanguageRegistry;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.StringTranslate;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +16,7 @@ public class Storage {
         Map<String, Fluid> forgecache = FluidRegistry.getRegisteredFluids();
         for (String name : forgecache.keySet()) {
             String Hname = name.toUpperCase();
+            if(name.equals("schrabidic_fluid"))continue;
             if (Fluids.fromName(Hname) == Fluids.NONE && Fluids.fromName(name) == Fluids.NONE) {
                 Fluid forgefluid = forgecache.get(name);
                 int color = forgefluid.getColor();

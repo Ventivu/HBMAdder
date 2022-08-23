@@ -7,22 +7,23 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = HBMAdden.MODID, name = HBMAdden.MODNAME, version = HBMAdden.VERSION, dependencies = "required-after:Forge@[10.13.2,);")
+@Mod(modid = HBMAddon.MODID, name = HBMAddon.MODNAME, version = HBMAddon.VERSION, dependencies = "required-before:hbm@[1.0.27,);required-after:Forge@[10.13.2,);")
 
-public class HBMAdden {
+public class HBMAddon {
 
     public static final String MODID = "HA";
-    public static final String MODNAME = "HBMAdden";
-    public static final String VERSION = "0.0.3";
+    public static final String MODNAME = "HBMAddon";
+    public static final String VERSION = "0.0.6";
 
     @SidedProxy(clientSide = "HA.CommonProxy", serverSide = "HA.CommonProxy")
     public static CommonProxy proxy;
 
-    @Instance(value = HBMAdden.MODID)
-    public static HBMAdden instance;
+    @Instance(value = HBMAddon.MODID)
+    public static HBMAddon instance;
 
     public static final Logger log = LogManager.getLogger("HBMFluidAdden");
 
@@ -40,5 +41,8 @@ public class HBMAdden {
     public void postInit(FMLPostInitializationEvent evt) {
         proxy.postInit(evt);
     }
+
+    @EventHandler
+    public void Exit(FMLServerStoppingEvent event){proxy.gameExit(event);}
 
 }

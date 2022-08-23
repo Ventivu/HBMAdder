@@ -1,35 +1,34 @@
 package HA;
 
 import HA.Config.Config;
+import HA.Fluiddder.FluidAdder;
 import HA.Fluiddder.Storage;
-import HA.Transfer.TransferRecipe;
+import HA.Converter.TransferRecipe;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static HA.jsonHelper.*;
+import static HA.jsonHelper.JsonReads;
+import static HA.jsonHelper.creatFile;
 
 public class Loader {
-    static Gson gson = new Gson();
+    static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String Fluids = "HAFluids", Recipes = "HARecipes";
 
-    static HashMap<String, String> en_USnames = new HashMap<>();
-    static HashMap<String, String> zh_CNnames = new HashMap<>();
-
     public static void loadFluidFromJson(Boolean first) {
-        if (Config.alwaysRefreshFluid && !Config.needRefreshFluid) Config.Set(Config.aFluid, false);
+        if (Config.alwaysRefreshFluid && !Config.needRefreshFluid) Config.set(Config.aFluid, false);
         String json = JsonReads(Fluids);
         if (json == null || Config.needRefreshFluid) {
             creatFile(Fluids, gson.toJson(Storage.sample()));
             if (first) loadFluidFromJson(false);
-            if (!Config.alwaysRefreshFluid) Config.Set(Config.nFluid, false);
+            if (!Config.alwaysRefreshFluid) Config.set(Config.nFluid, false);
             return;
         }
         Storage.Model[] models = gson.fromJson(json, Storage.Model[].class);
@@ -43,20 +42,35 @@ public class Loader {
         if (!Config.allcustomMode && needRefresh) creatFile(Fluids, gson.toJson(list.toArray()));
         Storage.storage.addAll((list));
         makeLocalized(list);
+        FluidAdder.construct();
     }
 
     public static void loadRecipeFromJson(boolean first) {
+        if (Config.alwaysRefreshRecipe && !Config.needRefreshRecipe) Config.set(Config.nRecipe, false);
         String json = JsonReads(Recipes);
-        if (json == null) {
+        if (json == null||Config.needRefreshRecipe) {
             creatFile(Recipes, gson.toJson(TransferRecipe.sample()));
             if (first) loadRecipeFromJson(false);
+            if(!Config.alwaysRefreshRecipe)Config.set(Config.nRecipe,false);
             return;
         }
-        TransferRecipe.storage.addAll((Arrays.asList(gson.fromJson(json, TransferRecipe.RecipeContainer[].class))));
+        TransferRecipe.RecipeContainer[] recipes=gson.fromJson(json, TransferRecipe.RecipeContainer[].class);
+
+        List<TransferRecipe.RecipeContainer> list=new ArrayList<>();
+        boolean needRefresh = false;
+        for (TransferRecipe.RecipeContainer recipe:recipes) {
+            if (!Config.allcustomMode && recipe.getInput() != null&&recipe.getOutput()!= com.hbm.inventory.fluid.Fluids.NONE) list.add(recipe);
+            else needRefresh = true;
+        }
+        if (!Config.allcustomMode && needRefresh) creatFile(Fluids, gson.toJson(list.toArray()));
+
+        TransferRecipe.storage.addAll((list));
         TransferRecipe.Construct();
     }
 
     public static void makeLocalized(List<Storage.Model> list) {
+        HashMap<String, String> en_USnames = new HashMap<>();
+        HashMap<String, String> zh_CNnames = new HashMap<>();
         for (Storage.Model model : list) {
             String unlocal = "hbmfluid." + model.name;
             Fluid fluid = FluidRegistry.getFluid(model.name);

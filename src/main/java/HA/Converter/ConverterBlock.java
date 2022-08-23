@@ -1,6 +1,6 @@
-package HA.Transfer;
+package HA.Converter;
 
-import HA.HBMAdden;
+import HA.HBMAddon;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -19,23 +19,23 @@ import net.minecraftforge.fluids.IFluidHandler;
 
 import java.util.List;
 
-public class TransforBlock extends Block {
+public class ConverterBlock extends Block {
     IIcon[] top=new IIcon[8],side=new IIcon[8],down=new IIcon[8];
 
-    public TransforBlock() {
+    public ConverterBlock() {
         super(Material.iron);
-        this.setBlockName("transfer");
-        GameRegistry.registerBlock(this,TransforBlockItem.class, "transfer");
-        GameRegistry.registerTileEntity(TileTransfer.class, "transfer");
+        this.setBlockName("converter");
+        GameRegistry.registerBlock(this, ConverterBlockItem.class, "converter");
+        GameRegistry.registerTileEntity(TileConverter.class, "Converter");
         this.setCreativeTab(CreativeTabs.tabRedstone);
     }
 
     @Override
     public void registerBlockIcons(IIconRegister register) {
         for(int i=0;i<top.length;i++) {
-            top[i] = register.registerIcon(HBMAdden.MODID + ":transfer_top."+i);
-            side[i] = register.registerIcon(HBMAdden.MODID + ":transfer_side."+i);
-            down[i] = register.registerIcon(HBMAdden.MODID + ":transfer_down."+i);
+            top[i] = register.registerIcon(HBMAddon.MODID + ":transfer_top."+i);
+            side[i] = register.registerIcon(HBMAddon.MODID + ":transfer_side."+i);
+            down[i] = register.registerIcon(HBMAddon.MODID + ":transfer_down."+i);
         }
     }
 
@@ -73,12 +73,12 @@ public class TransforBlock extends Block {
 
     @Override
     public TileEntity createTileEntity(World world, int metadata) {
-        return new TileTransfer(metadata);
+        return new TileConverter(metadata);
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        TileTransfer tile = (TileTransfer) world.getTileEntity(x, y, z);
+        TileConverter tile = (TileConverter) world.getTileEntity(x, y, z);
         ItemStack current = player.getCurrentEquippedItem();
         if (current != null) {
             if (!world.isRemote) {

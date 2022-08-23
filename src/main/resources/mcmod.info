@@ -1,11 +1,11 @@
 [
 {
   "modid": "HA",
-  "name": "HBMadden",
+  "name": "HBMaddon",
   "description": "compact for HBM",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "logoFile": "",
+  "logoFile": "G9.png",
   "url": "",
   "updateUrl": "",
   "authorList": ["Ventivu"],

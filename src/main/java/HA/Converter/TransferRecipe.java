@@ -1,4 +1,4 @@
-package HA.Transfer;
+package HA.Converter;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -15,10 +15,21 @@ public class TransferRecipe {
     public static final Map<Fluid, FluidType> recipeMap = new HashMap<>();
 
     public static RecipeContainer[] sample() {
-        RecipeContainer[] a = new RecipeContainer[2];
-        a[0] = new RecipeContainer("water", "WATER");
-        a[1] = new RecipeContainer("lava", "LAVA");
-        return a;
+        List<RecipeContainer> list = new ArrayList<>();
+        Map<String, Fluid> forgecache = FluidRegistry.getRegisteredFluids();
+        for (String name : forgecache.keySet()) {
+            String Hname = name.toUpperCase();
+            //TODO:喊BOB改了他
+            if(name.equals("schrabidic_fluid")) {
+                list.add(new RecipeContainer(name,Fluids.SCHRABIDIC.getName()));
+                continue;
+            }
+            if (Fluids.fromName(Hname) != Fluids.NONE || Fluids.fromName(name) != Fluids.NONE) {
+
+                list.add(new RecipeContainer(name,Fluids.fromName(Hname) == Fluids.NONE?name:Hname));
+            }
+        }
+        return list.toArray(new RecipeContainer[0]);
     }
 
     public static void Construct() {

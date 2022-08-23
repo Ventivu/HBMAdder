@@ -64,9 +64,9 @@ mirrorstation {
     */
 }
 
-version = "0.0.3"
+version = "0.0.6"
 group = "com.Ventivu.HA"
-archivesBaseName = "HBMAdden"
+archivesBaseName = "HBMAddon"
 
 
 minecraft {

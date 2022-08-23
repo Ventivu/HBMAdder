@@ -1,4 +1,4 @@
-tile.transfer.name=流体转换器
+tile.converter.name=流体转换器
 level.0=基础
 level.1=普通
 level.2=精致
@@ -9,8 +9,28 @@ level.6=终极
 level.7=创造
 
 #Config
-desc.RefreshFluid=刷新流体配置开关
-desc.AlwaysRefreshFluid=保持流体刷新常开
-desc.RefreshRecipe=刷新转换配置开关
-desc.AlwaysRefreshRecipe=保持转换刷新常开
-desc.AllCustomMode=完全自定义模式（不会自动删除失效项目）
+FluidInfo.1=如果你想自定义 Forge流体 -> HBM流体 转换你需要将 AllCustomMode 改为 true
+FluidInfo.2=开启后在 HARecipes.json 中按照以下格式填写，不要忘记为你的大括号加逗号
+FluidInfo.3={input:FluidName,output:FluidName}
+FluidInfo.4=input - 输入 output - 输出
+
+CommonInfo.1=如果你想自定义HBM流体你需要将 AllCustomMode 改为 true
+CommonInfo.2=开启后在 HAFluid.json 中按照以下格式填写，不要忘记为你的大括号加逗号
+CommonInfo.3={name:FluidName,poison:0,flammability:0,reactivity:0,RGB:[255,255,255]}
+CommonInfo.4=poison - 有毒性 flammability - 易燃性 reactivity - 辐射性
+
+desc.RefreshFluid.1=重置流体配置开关（警告：此操作会彻底消除所做的任何更改！！）
+
+desc.AlwaysRefreshFluid=保持流体重置常开（注：重置开关未打开时无效，自动关闭）
+desc.RefreshRecipe=重置转换配置开关（警告：此操作会彻底消除所做的任何更改！！）
+desc.AlwaysRefreshRecipe=保持转换重置常开（注：重置开关未打开时无效，自动关闭）
+
+desc.AllCustomMode.1=完全自定义模式
+desc.AllCustomMode.2=开启以用于自定义 HBM 流体
+desc.AllCustomMode.3=(这个行为会导致模组失去一定的溃保护能力，它无法自动删除错误的代码，你需要手动修改，在初次开启后会生成保护性配置文件以防止崩溃。)
+
+desc.warnN=初始化你的 %s (这会导致你所有的自定义项目全部被清除)
+desc.warnA=打开 %s 后生效 (之后每次重启游戏都会初始化你的 %s)
+#Chat
+Chat.configwarn.1=%s%s,%s如果您是一位整合包开发者,请注意您的下一次启动
+Chat.configwarn.2=%s可能会误删您HAFluids和HARecipes中的自定义内容，请及时备份!
