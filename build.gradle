@@ -64,7 +64,7 @@ mirrorstation {
     */
 }
 
-version = "0.0.6"
+version = "0.0.6.1"
 group = "com.Ventivu.HA"
 archivesBaseName = "HBMAddon"
 

@@ -11,7 +11,9 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +23,10 @@ import static HA.jsonHelper.creatFile;
 public class Loader {
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String Fluids = "HAFluids", Recipes = "HARecipes";
+
+    public static void setFolder(File folder) {
+        jsonHelper.setFolder(folder);
+    }
 
     public static void loadFluidFromJson(Boolean first) {
         if (Config.alwaysRefreshFluid && !Config.needRefreshFluid) Config.set(Config.aFluid, false);
@@ -35,8 +41,10 @@ public class Loader {
 
         List<Storage.Model> list = new ArrayList<>();
         boolean needRefresh = false;
-        for (Storage.Model model : models) {
-            if (!Config.allcustomMode && FluidRegistry.getFluid(model.name) != null) list.add(model);
+
+        if (Config.allcustomMode) list = Arrays.asList(models);
+        else for (Storage.Model model : models) {
+            if (FluidRegistry.getFluid(model.name) != null) list.add(model);
             else needRefresh = true;
         }
         if (!Config.allcustomMode && needRefresh) creatFile(Fluids, gson.toJson(list.toArray()));
@@ -48,22 +56,23 @@ public class Loader {
     public static void loadRecipeFromJson(boolean first) {
         if (Config.alwaysRefreshRecipe && !Config.needRefreshRecipe) Config.set(Config.nRecipe, false);
         String json = JsonReads(Recipes);
-        if (json == null||Config.needRefreshRecipe) {
+        if (json == null || Config.needRefreshRecipe) {
             creatFile(Recipes, gson.toJson(TransferRecipe.sample()));
             if (first) loadRecipeFromJson(false);
-            if(!Config.alwaysRefreshRecipe)Config.set(Config.nRecipe,false);
+            if (!Config.alwaysRefreshRecipe) Config.set(Config.nRecipe, false);
             return;
         }
-        TransferRecipe.RecipeContainer[] recipes=gson.fromJson(json, TransferRecipe.RecipeContainer[].class);
+        TransferRecipe.RecipeContainer[] recipes = gson.fromJson(json, TransferRecipe.RecipeContainer[].class);
 
-        List<TransferRecipe.RecipeContainer> list=new ArrayList<>();
+        List<TransferRecipe.RecipeContainer> list = new ArrayList<>();
         boolean needRefresh = false;
-        for (TransferRecipe.RecipeContainer recipe:recipes) {
-            if (!Config.allcustomMode && recipe.getInput() != null&&recipe.getOutput()!= com.hbm.inventory.fluid.Fluids.NONE) list.add(recipe);
+
+        if (Config.allcustomMode) list = Arrays.asList(recipes);
+        else for (TransferRecipe.RecipeContainer recipe : recipes) {
+            if (recipe.getInput() != null) list.add(recipe);
             else needRefresh = true;
         }
-        if (!Config.allcustomMode && needRefresh) creatFile(Fluids, gson.toJson(list.toArray()));
-
+        if (!Config.allcustomMode && needRefresh) creatFile(Recipes, gson.toJson(list.toArray()));
         TransferRecipe.storage.addAll((list));
         TransferRecipe.Construct();
     }

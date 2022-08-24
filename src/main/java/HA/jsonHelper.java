@@ -5,9 +5,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class jsonHelper {
+    static File folder=new File("config");
+    public static void setFolder(File file){
+        folder=file;
+    }
 
     public static String JsonReads(String id) {
-        File file = new File("config\\" + id + ".json");
+        File file = new File(folder,id + ".json");
         if (file.exists() && file.canExecute() && file.canRead()) {
             return toString(file);
         }
@@ -33,7 +37,7 @@ public class jsonHelper {
     }
 
     public static void creatFile(String id, String inf) {
-        File file = new File("config\\" + id + ".json");
+        File file = new File(folder,id + ".json");
         if(file.exists())file.delete();
         try {
             file.createNewFile();

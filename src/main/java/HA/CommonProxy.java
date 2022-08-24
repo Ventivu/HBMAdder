@@ -2,7 +2,6 @@ package HA;
 
 import HA.Config.Config;
 import HA.Converter.ConverterBlock;
-import HA.temp.BlockCounter;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -16,6 +15,7 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         new Config(event.getSuggestedConfigurationFile());
         new Event();
+        Loader.setFolder(event.getModConfigurationDirectory());
         transfer = new ConverterBlock();
         //counter = new BlockCounter();
     }
