@@ -1,9 +1,8 @@
 package HA;
 
 import HA.Config.Config;
-import HA.Fluiddder.FluidAdder;
-import HA.Fluiddder.Storage;
 import HA.Converter.TransferRecipe;
+import HA.Fluiddder.Storage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -33,11 +32,11 @@ public class Loader {
         String json = JsonReads(Fluids);
         if (json == null || Config.needRefreshFluid) {
             creatFile(Fluids, gson.toJson(Storage.sample()));
+            if(Config.needRefreshFluid)Config.needRefreshFluid=false;
             if (first) loadFluidFromJson(false);
-            if (!Config.alwaysRefreshFluid) Config.set(Config.nFluid, false);
             return;
         }
-        Storage.Model[] models = gson.fromJson(json, Storage.Model[].class);
+        Storage.Model[] models = gson.fromJson(json, HBMAddon.isClient()?Storage.TexturedModel[].class:Storage.Model[].class);
 
         List<Storage.Model> list = new ArrayList<>();
         boolean needRefresh = false;
@@ -50,7 +49,6 @@ public class Loader {
         if (!Config.allcustomMode && needRefresh) creatFile(Fluids, gson.toJson(list.toArray()));
         Storage.storage.addAll((list));
         makeLocalized(list);
-        FluidAdder.construct();
     }
 
     public static void loadRecipeFromJson(boolean first) {
@@ -58,8 +56,8 @@ public class Loader {
         String json = JsonReads(Recipes);
         if (json == null || Config.needRefreshRecipe) {
             creatFile(Recipes, gson.toJson(TransferRecipe.sample()));
+            if (Config.needRefreshRecipe) Config.needRefreshRecipe=false;
             if (first) loadRecipeFromJson(false);
-            if (!Config.alwaysRefreshRecipe) Config.set(Config.nRecipe, false);
             return;
         }
         TransferRecipe.RecipeContainer[] recipes = gson.fromJson(json, TransferRecipe.RecipeContainer[].class);
@@ -96,5 +94,9 @@ public class Loader {
 
         LanguageRegistry.instance().injectLanguage("en_US", en_USnames);
         LanguageRegistry.instance().injectLanguage("zh_CN", zh_CNnames);
+    }
+
+    public static void recreat(List<Storage.Model> list){
+        creatFile(Fluids, gson.toJson(list.toArray()));
     }
 }

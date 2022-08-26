@@ -1,8 +1,10 @@
 package HA.Fluiddder;
 
+import HA.HBMAddon;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.render.util.EnumSymbol;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +19,28 @@ public class FluidAdder extends Fluids {
                 continue;
             }
             int rgb=model.RGB[0]<<16|model.RGB[1]<<8|model.RGB[2];
-            metaOrder.add(new FluidType(model.name, rgb, model.poison,model.flammability,model.reactivity,EnumSymbol.NONE));
+            OuterTextureFluid fluid=new OuterTextureFluid(model.name, rgb, model.poison,model.flammability,model.reactivity,EnumSymbol.NONE);
+            if(HBMAddon.isClient())fluid.setNewLocation(((Storage.TexturedModel)model).resourceLocation);
+            metaOrder.add(fluid);
             namespace.add(model.name);
+        }
+    }
+
+
+    static class OuterTextureFluid extends FluidType{
+        ResourceLocation newLocation;
+
+        public OuterTextureFluid(String name, int color, int p, int f, int r, EnumSymbol symbol) {
+            super(name, color, p, f, r, symbol);
+        }
+
+        @Override
+        public ResourceLocation getTexture() {
+            return newLocation==null?super.getTexture():newLocation;
+        }
+
+        public void setNewLocation(ResourceLocation newLocation) {
+            this.newLocation = newLocation;
         }
     }
 }

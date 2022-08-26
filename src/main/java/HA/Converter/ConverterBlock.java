@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 import java.util.List;
 
 public class ConverterBlock extends Block {
-    IIcon[] top=new IIcon[8],side=new IIcon[8],down=new IIcon[8];
+    IIcon[] top = new IIcon[8], side = new IIcon[8], down = new IIcon[8];
 
     public ConverterBlock() {
         super(Material.iron);
@@ -32,33 +32,36 @@ public class ConverterBlock extends Block {
 
     @Override
     public void registerBlockIcons(IIconRegister register) {
-        for(int i=0;i<top.length;i++) {
-            top[i] = register.registerIcon(HBMAddon.MODID + ":transfer_top."+i);
-            side[i] = register.registerIcon(HBMAddon.MODID + ":transfer_side."+i);
-            down[i] = register.registerIcon(HBMAddon.MODID + ":transfer_down."+i);
+        for (int i = 0; i < top.length; i++) {
+            top[i] = register.registerIcon(HBMAddon.MODID + ":transfer_top." + i);
+            side[i] = register.registerIcon(HBMAddon.MODID + ":transfer_side." + i);
+            down[i] = register.registerIcon(HBMAddon.MODID + ":transfer_down." + i);
         }
     }
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        switch (ForgeDirection.getOrientation(side)){
-            case DOWN:return down[meta];
-            case UP:return top[meta];
-            default:return this.side[meta];
+        switch (ForgeDirection.getOrientation(side)) {
+            case DOWN:
+                return down[meta];
+            case UP:
+                return top[meta];
+            default:
+                return this.side[meta];
         }
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-        list.add(new ItemStack(item,1,0));
-        list.add(new ItemStack(item,1,1));
-        list.add(new ItemStack(item,1,2));
-        list.add(new ItemStack(item,1,3));
-        list.add(new ItemStack(item,1,4));
-        list.add(new ItemStack(item,1,5));
-        list.add(new ItemStack(item,1,6));
-        list.add(new ItemStack(item,1,7));
+        list.add(new ItemStack(item, 1, 0));
+        list.add(new ItemStack(item, 1, 1));
+        list.add(new ItemStack(item, 1, 2));
+        list.add(new ItemStack(item, 1, 3));
+        list.add(new ItemStack(item, 1, 4));
+        list.add(new ItemStack(item, 1, 5));
+        list.add(new ItemStack(item, 1, 6));
+        list.add(new ItemStack(item, 1, 7));
     }
 
     @Override

@@ -2,6 +2,7 @@ package HA;
 
 import HA.Config.Config;
 import HA.Converter.ConverterBlock;
+import HA.Fluiddder.FluidAdder;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -26,7 +27,7 @@ public class CommonProxy {
     }
 
     public void postInit(FMLPostInitializationEvent event) {
-
+        FluidAdder.construct();
     }
 
     public void gameExit(FMLServerStoppingEvent event) {
@@ -34,6 +35,7 @@ public class CommonProxy {
             Config.set(Config.first, false);
             Config.set(Config.custom, false);
         }
+        if (!Config.alwaysRefreshFluid) Config.set(Config.nFluid, false);
+        if(!Config.alwaysRefreshRecipe)Config.set(Config.nRecipe, false);
     }
-
 }

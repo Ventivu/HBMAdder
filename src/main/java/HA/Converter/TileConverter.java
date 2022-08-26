@@ -96,7 +96,7 @@ public class TileConverter extends TileEntity implements IFluidHandler, IFluidSt
                         this.output.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
                     }else {
                         if (output.getTankType() == Fluids.NONE) output.setTankType(outputFluid);
-                        output.setFill(input.drain(input.getFluidAmount(),true).amount);
+                        output.setFill(output.getFill()+input.drain(input.getFluidAmount(),true).amount);
                     }
                 }
             }

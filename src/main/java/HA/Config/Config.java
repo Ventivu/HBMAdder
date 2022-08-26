@@ -62,8 +62,7 @@ public class Config extends Configuration{
     }
 
     static Property loadProp(Configuration conf,String category, String key, boolean default_) {
-        Property prop = conf.get(category, key, default_);
-        return prop;
+        return conf.get(category, key, default_);
     }
 
     public static void set(Property property, Boolean bl){
@@ -75,7 +74,7 @@ public class Config extends Configuration{
     String buildStrings(String... strs){
         StringBuilder builder=new StringBuilder();
         for(String str:strs){
-            String ss=StatCollector.translateToLocal(str);
+            String ss= StatCollector.translateToLocal(str);
             builder.append(ss);
             builder.append("\n");
         }
