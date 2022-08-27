@@ -32,11 +32,11 @@ public class Loader {
         String json = JsonReads(Fluids);
         if (json == null || Config.needRefreshFluid) {
             creatFile(Fluids, gson.toJson(Storage.sample()));
-            if(Config.needRefreshFluid)Config.needRefreshFluid=false;
+            if (Config.needRefreshFluid) Config.needRefreshFluid = false;
             if (first) loadFluidFromJson(false);
             return;
         }
-        Storage.Model[] models = gson.fromJson(json, HBMAddon.isClient()?Storage.TexturedModel[].class:Storage.Model[].class);
+        Storage.Model[] models = gson.fromJson(json, HBMAddon.isClient() ? Storage.TexturedModel[].class : Storage.Model[].class);
 
         List<Storage.Model> list = new ArrayList<>();
         boolean needRefresh = false;
@@ -56,8 +56,11 @@ public class Loader {
         String json = JsonReads(Recipes);
         if (json == null || Config.needRefreshRecipe) {
             creatFile(Recipes, gson.toJson(TransferRecipe.sample()));
-            if (Config.needRefreshRecipe) Config.needRefreshRecipe=false;
-            if (first) loadRecipeFromJson(false);
+            if (Config.needRefreshRecipe) Config.needRefreshRecipe = false;
+            if (first) {
+                ClientProxy.unColored=true;
+                loadRecipeFromJson(false);
+            }
             return;
         }
         TransferRecipe.RecipeContainer[] recipes = gson.fromJson(json, TransferRecipe.RecipeContainer[].class);
@@ -72,7 +75,6 @@ public class Loader {
         }
         if (!Config.allcustomMode && needRefresh) creatFile(Recipes, gson.toJson(list.toArray()));
         TransferRecipe.storage.addAll((list));
-        TransferRecipe.Construct();
     }
 
     public static void makeLocalized(List<Storage.Model> list) {
@@ -96,7 +98,7 @@ public class Loader {
         LanguageRegistry.instance().injectLanguage("zh_CN", zh_CNnames);
     }
 
-    public static void recreat(List<Storage.Model> list){
+    public static void recreat(List<Storage.Model> list) {
         creatFile(Fluids, gson.toJson(list.toArray()));
     }
 }

@@ -35,10 +35,12 @@ public class FluidColor extends ColorSpace implements IResourceManagerReloadList
     public static void setAllColor(){
         for (Storage.Model model:Storage.storage){
             Fluid fluid=FluidRegistry.getFluid(model.name);
-            int dcolor=getIconColor(fluid.getIcon(),fluid.getColor());
-            model.RGB[0] = dcolor >> 16;
-            model.RGB[1] = dcolor >> 8 & 0xff;
-            model.RGB[2] = dcolor & 0xff;
+            try{
+                int dcolor = getIconColor(fluid.getIcon(), fluid.getColor());
+                model.RGB[0] = dcolor >> 16;
+                model.RGB[1] = dcolor >> 8 & 0xff;
+                model.RGB[2] = dcolor & 0xff;
+            }catch (Exception ignored){}
         }
         Loader.recreat(Storage.storage);
     }

@@ -18,7 +18,7 @@ public class HBMAddon {
 
     public static final String MODID = "HA";
     public static final String MODNAME = "HBMAddon";
-    public static final String VERSION = "0.0.7";
+    public static final String VERSION = "0.0.7.1";
 
     @SidedProxy(clientSide = "HA.ClientProxy", serverSide = "HA.CommonProxy")
     public static CommonProxy proxy;

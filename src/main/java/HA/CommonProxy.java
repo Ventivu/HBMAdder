@@ -2,6 +2,7 @@ package HA;
 
 import HA.Config.Config;
 import HA.Converter.ConverterBlock;
+import HA.Converter.TransferRecipe;
 import HA.Fluiddder.FluidAdder;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -23,11 +24,12 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent event) {
         Loader.loadFluidFromJson(true);
-        Loader.loadRecipeFromJson(true);
     }
 
     public void postInit(FMLPostInitializationEvent event) {
         FluidAdder.construct();
+        Loader.loadRecipeFromJson(true);
+        TransferRecipe.Construct();
     }
 
     public void gameExit(FMLServerStoppingEvent event) {
