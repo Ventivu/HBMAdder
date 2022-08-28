@@ -24,12 +24,12 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent event) {
         Loader.loadFluidFromJson(true);
-    }
-
-    public void postInit(FMLPostInitializationEvent event) {
         FluidAdder.construct();
         Loader.loadRecipeFromJson(true);
         TransferRecipe.Construct();
+    }
+
+    public void postInit(FMLPostInitializationEvent event) {
     }
 
     public void gameExit(FMLServerStoppingEvent event) {

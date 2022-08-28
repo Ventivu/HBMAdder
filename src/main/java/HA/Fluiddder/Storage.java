@@ -71,6 +71,16 @@ public class Storage {
     public static class TexturedModel extends Model {
         public ResourceLocation resourceLocation;
 
+        public TexturedModel(String name, int[] rgb, int poison, int flammability, int reactivity){
+            super(name, rgb, poison, flammability, reactivity);
+            resourceLocation=null;
+        }
+
+        public TexturedModel(String name, int rgb, int poison, int flammability, int reactivity) {
+            super(name, rgb, poison, flammability, reactivity);
+            resourceLocation = null;
+        }
+
         public TexturedModel(String name, int[] rgb, int poison, int flammability, int reactivity, ResourceLocation location) {
             super(name, rgb, poison, flammability, reactivity);
             resourceLocation = location;

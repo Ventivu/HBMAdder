@@ -39,6 +39,11 @@ public class TransferRecipe {
         }
     }
 
+    public static void rollBack(){
+        storage.clear();
+        recipeMap.clear();
+    }
+
     public static class RecipeContainer {
         String input;
         String output;

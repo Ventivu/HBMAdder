@@ -75,10 +75,17 @@ minecraft {
     // mappings = "stable_12"
 }
 
+def clientmode = true
+def uselib=true
+def coreLocation = "../MagCore/build/libs/%s"
+def env = String.format(coreLocation, clientmode ? "MagCore-0.4.2.jar" : "MagCoreDev.jar")
 dependencies {
     implementation 'org.jetbrains:annotations-java5:20.1.0'
     implementation fileTree("Mods")
     compileOnly fileTree("DepMods")
+    compileOnly files(String.format(coreLocation, "MagCoreDev-source.jar"))
+    if(uselib)implementation files(env)
+    else compileOnly files(env)
 }
 
 processResources {
